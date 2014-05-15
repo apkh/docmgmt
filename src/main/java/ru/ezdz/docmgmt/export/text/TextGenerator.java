@@ -1,6 +1,9 @@
 package ru.ezdz.docmgmt.export.text;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -51,6 +54,13 @@ public class TextGenerator implements DocGenerator {
 			generate(writer, currentArticle, level + 1);
 			writer.flush();
 		}
+	}
+
+	public void generate(File file) throws IOException {
+		FileOutputStream fileOutputStream = new FileOutputStream(file);
+		generate(fileOutputStream);
+		fileOutputStream.close();
+		
 	}
 
 }

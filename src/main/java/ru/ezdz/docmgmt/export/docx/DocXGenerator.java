@@ -1,5 +1,7 @@
 package ru.ezdz.docmgmt.export.docx;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
 
@@ -24,6 +26,11 @@ public class DocXGenerator implements DocGenerator {
 		while (articleIterator.hasNext()) {
 			
 		}
+	}
+
+	public void generate(File file) throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
