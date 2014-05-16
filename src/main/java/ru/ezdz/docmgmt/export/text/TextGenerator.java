@@ -2,7 +2,6 @@ package ru.ezdz.docmgmt.export.text;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -17,13 +16,11 @@ import ru.ezdz.docmgmt.model.DocRoot;
 
 public class TextGenerator implements DocGenerator {
 
-	private final DocRoot docRoot;
 
-	public TextGenerator(DocRoot root) {
-		this.docRoot = root;
+	public TextGenerator() {
 	}
 
-	public void generate(OutputStream out) throws IOException {
+	public void generate(DocRoot docRoot, OutputStream out) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
 		generate(writer, docRoot, 0);
 		writer.flush();
@@ -56,9 +53,9 @@ public class TextGenerator implements DocGenerator {
 		}
 	}
 
-	public void generate(File file) throws IOException {
+	public void generate(DocRoot docRoot, File file) throws IOException {
 		FileOutputStream fileOutputStream = new FileOutputStream(file);
-		generate(fileOutputStream);
+		generate(docRoot, fileOutputStream);
 		fileOutputStream.close();
 		
 	}

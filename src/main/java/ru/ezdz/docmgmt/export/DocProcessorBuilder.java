@@ -4,17 +4,17 @@ import ru.ezdz.docmgmt.export.docx.DocXGenerator;
 import ru.ezdz.docmgmt.export.text.TextGenerator;
 import ru.ezdz.docmgmt.model.DocRoot;
 
-public class DocGeneratorBuilder {
-	public static DocGenerator create(DocFormat format, DocRoot root) {
+public class DocProcessorBuilder {
+	public static DocGenerator createGenerator(DocFormat format) {
 		DocGenerator generator = null;
 		switch (format) {
 		case DOCX:
-			generator = new DocXGenerator(root);
+			generator = new DocXGenerator();
 			break;
 		case PDF:
 			break;
 		case TEXT:
-			generator = new TextGenerator(root);
+			generator = new TextGenerator();
 			break;
 		default:
 			break;

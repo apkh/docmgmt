@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public interface DocGenerator {
-	void generate(OutputStream out) throws IOException;
+import ru.ezdz.docmgmt.model.DocRoot;
 
-	void generate(File file) throws IOException;
+public interface DocGenerator {
+	void generate(DocRoot doc, OutputStream out) throws IOException;
+
+	void generate(DocRoot doc, File file) throws IOException;
 }

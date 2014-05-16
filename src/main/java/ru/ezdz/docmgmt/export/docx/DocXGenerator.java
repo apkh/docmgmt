@@ -11,24 +11,22 @@ import ru.ezdz.docmgmt.model.DocRoot;
 
 public class DocXGenerator implements DocGenerator {
 
-	private final DocRoot docRoot;
 
-	public DocXGenerator(DocRoot root) {
-		this.docRoot = root;
+	public DocXGenerator() {
 	}
 
-	public void generate(OutputStream out) {
-		generate(out, docRoot, 0);
+	public void generate(DocRoot doc, OutputStream out) {
+		generate(out, doc, 0);
 	}
 	
 	public void generate(OutputStream out, DocArticle article, int level) {
-		Iterator<DocArticle> articleIterator = docRoot.getArticleIterator();
+		Iterator<DocArticle> articleIterator = article.getArticleIterator();
 		while (articleIterator.hasNext()) {
 			
 		}
 	}
 
-	public void generate(File file) throws IOException {
+	public void generate(DocRoot doc, File file) throws IOException {
 		// TODO Auto-generated method stub
 		
 	}
