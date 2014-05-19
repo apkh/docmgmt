@@ -10,7 +10,7 @@ import java.io.Writer;
 import java.util.Iterator;
 
 import ru.ezdz.docmgmt.export.DocGenerator;
-import ru.ezdz.docmgmt.model.DocArticle;
+import ru.ezdz.docmgmt.model.DocParagraph;
 import ru.ezdz.docmgmt.model.DocContent;
 import ru.ezdz.docmgmt.model.DocRoot;
 
@@ -26,15 +26,15 @@ public class TextGenerator implements DocGenerator {
 		writer.flush();
 	}
 	
-	void generate(Writer writer, DocArticle article, int level) throws IOException {
+	void generate(Writer writer, DocParagraph article, int level) throws IOException {
 		char[] prefix = new char[level * 2];
 		for (int i = level * 2 - 1; i > 0; i--) {
 			prefix[i] = ' ';
 		}
 		
-		Iterator<DocArticle> articleIterator = article.getArticleIterator();
+		Iterator<DocParagraph> articleIterator = article.getArticleIterator();
 		while (articleIterator.hasNext()) {
-			DocArticle currentArticle = articleIterator.next();
+			DocParagraph currentArticle = articleIterator.next();
 			writer.write(prefix);
 			writer.write(currentArticle.getIndex());
 			writer.write(". ");

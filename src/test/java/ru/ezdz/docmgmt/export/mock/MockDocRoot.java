@@ -3,7 +3,7 @@ package ru.ezdz.docmgmt.export.mock;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import ru.ezdz.docmgmt.model.DocArticle;
+import ru.ezdz.docmgmt.model.DocParagraph;
 import ru.ezdz.docmgmt.model.DocContent;
 import ru.ezdz.docmgmt.model.DocRoot;
 
@@ -22,8 +22,8 @@ public class MockDocRoot implements DocRoot {
 		return array.iterator();
 	}
 
-	public Iterator<DocArticle> getArticleIterator() {
-		ArrayList<DocArticle> array = new ArrayList<DocArticle>();
+	public Iterator<DocParagraph> getArticleIterator() {
+		ArrayList<DocParagraph> array = new ArrayList<DocParagraph>();
 		array.add(new MockArticle("1"));
 		array.add(new MockArticle("2"));
 		return array.iterator();

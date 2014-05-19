@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 
 import ru.ezdz.docmgmt.export.DocGenerator;
-import ru.ezdz.docmgmt.model.DocArticle;
+import ru.ezdz.docmgmt.model.DocParagraph;
 import ru.ezdz.docmgmt.model.DocRoot;
 
 public class DocXGenerator implements DocGenerator {
@@ -19,8 +19,8 @@ public class DocXGenerator implements DocGenerator {
 		generate(out, doc, 0);
 	}
 	
-	public void generate(OutputStream out, DocArticle article, int level) {
-		Iterator<DocArticle> articleIterator = article.getArticleIterator();
+	public void generate(OutputStream out, DocParagraph article, int level) {
+		Iterator<DocParagraph> articleIterator = article.getArticleIterator();
 		while (articleIterator.hasNext()) {
 			
 		}
