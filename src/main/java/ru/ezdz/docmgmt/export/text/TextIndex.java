@@ -39,7 +39,7 @@ public class TextIndex {
 				pos += index.length() + 1;
 			} else {
 				// Not matching
-				// Candidate for UPPER
+				// Candidate for SAME or UPPER
 				Integer expectedIndex = Integer.valueOf(indexList.get(i).intValue() + 1);
 				String expectedIndexStr = expectedIndex.toString();
 				if (matchSubstr(line, expectedIndexStr, pos)) {
@@ -56,9 +56,17 @@ public class TextIndex {
 							return MatchMode.SAME_LEVEL;
 						}
 					}
+				} else {
+					// either last or upper level shall increment
+					return MatchMode.NONE;
 				}
 					
 			}
+		}
+		// We can get here iff we found the same sequence as were observed last time
+		if ((line.length() >= pos + 2 && line.substring(pos, pos + 2).equals(".1")) &&
+			(line.length() == pos + 2 || line.charAt(pos + 2) == ' ')) {
+			return MatchMode.NEXT_LEVEL;
 		}
 		return MatchMode.NONE;
 	}
