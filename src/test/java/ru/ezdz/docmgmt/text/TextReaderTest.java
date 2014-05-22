@@ -1,21 +1,13 @@
-package ru.ezdz.docmgmt.export.text;
+package ru.ezdz.docmgmt.text;
 
 import static org.junit.Assert.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import ru.ezdz.docmgmt.export.DocFormat;
-import ru.ezdz.docmgmt.export.DocGenerator;
-import ru.ezdz.docmgmt.export.DocProcessorBuilder;
-import ru.ezdz.docmgmt.export.mock.MockDocRoot;
-import ru.ezdz.docmgmt.model.DocRoot;
 
 public class TextReaderTest {
 

@@ -1,4 +1,4 @@
-package ru.ezdz.docmgmt.export.text;
+package ru.ezdz.docmgmt.text;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +10,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ru.ezdz.docmgmt.export.DocFormat;
-import ru.ezdz.docmgmt.export.DocGenerator;
-import ru.ezdz.docmgmt.export.DocProcessorBuilder;
+import ru.ezdz.docmgmt.DocFormat;
+import ru.ezdz.docmgmt.DocGenerator;
+import ru.ezdz.docmgmt.DocProcessorBuilder;
 import ru.ezdz.docmgmt.export.mock.MockDocRoot;
 import ru.ezdz.docmgmt.model.DocRoot;
 

@@ -1,4 +1,4 @@
-package ru.ezdz.docmgmt.export.text;
+package ru.ezdz.docmgmt.text;
 
 import java.util.ArrayList;
 
@@ -32,9 +32,19 @@ public class TextIndex {
 			if (matchSubstr(line, index, pos)) {
 				//matching sequence
 				if (line.length() == pos + index.length()
-						|| (i == indexList.size() - 1 && line.charAt(pos + index.length()) != ' ') 
-						|| (line.charAt(pos + index.length()) != '.')) {
-					return MatchMode.NONE;
+                        || (line.charAt(pos + index.length()) != '.')) {
+                    return MatchMode.NONE;
+                }
+                // next symbol is always '.'
+				if (i == indexList.size() - 1) {
+                    int endPos = pos + index.length();
+                    if (endPos + 2 <= line.length()
+                        && line.substring(endPos, endPos + 2).equals(".1")) {
+                        indexList.add(1);
+                        return MatchMode.NEXT_LEVEL;
+                    }     else {
+                        return MatchMode.NONE;
+                    }
 				}
 				pos += index.length() + 1;
 			} else {
@@ -64,7 +74,11 @@ public class TextIndex {
 			}
 		}
 		// We can get here iff we found the same sequence as were observed last time
-		if ((line.length() >= pos + 2 && line.substring(pos, pos + 2).equals(".1")) &&
+		if (indexList.size() == 0 && (line.equals("1"))  ) {
+            indexList.add(1);
+            return MatchMode.NEXT_LEVEL;
+        }
+        if (line.length() >= pos + 2 && line.substring(pos, pos + 2).equals(".1") &&
 			(line.length() == pos + 2 || line.charAt(pos + 2) == ' ')) {
 			return MatchMode.NEXT_LEVEL;
 		}

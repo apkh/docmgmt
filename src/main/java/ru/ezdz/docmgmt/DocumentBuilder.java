@@ -1,4 +1,4 @@
-package ru.ezdz.docmgmt.export;
+package ru.ezdz.docmgmt;
 
 public interface DocumentBuilder {
 	Object createDocument(String name, String content);

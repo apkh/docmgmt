@@ -1,4 +1,4 @@
-package ru.ezdz.docmgmt.export.text;
+package ru.ezdz.docmgmt.text;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Iterator;
 
-import ru.ezdz.docmgmt.export.DocGenerator;
+import ru.ezdz.docmgmt.DocGenerator;
 import ru.ezdz.docmgmt.model.DocParagraph;
 import ru.ezdz.docmgmt.model.DocContent;
 import ru.ezdz.docmgmt.model.DocRoot;

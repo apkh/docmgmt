@@ -1,17 +1,14 @@
-package ru.ezdz.docmgmt.export.text;
+package ru.ezdz.docmgmt.text;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringReader;
-import java.nio.CharBuffer;
 
-import ru.ezdz.docmgmt.export.DocImporter;
-import ru.ezdz.docmgmt.export.DocumentBuilder;
+import ru.ezdz.docmgmt.DocImporter;
+import ru.ezdz.docmgmt.DocumentBuilder;
 
 public class TextImporter implements DocImporter {
 

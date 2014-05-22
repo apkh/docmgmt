@@ -1,4 +1,4 @@
-package ru.ezdz.docmgmt.export;
+package ru.ezdz.docmgmt;
 
 import java.io.File;
 import java.io.IOException;

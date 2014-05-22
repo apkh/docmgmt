@@ -1,9 +1,8 @@
-package ru.ezdz.docmgmt.export;
+package ru.ezdz.docmgmt;
 
-import ru.ezdz.docmgmt.export.docx.DocXGenerator;
-import ru.ezdz.docmgmt.export.text.TextGenerator;
-import ru.ezdz.docmgmt.export.text.TextImporter;
-import ru.ezdz.docmgmt.model.DocRoot;
+import ru.ezdz.docmgmt.docx.DocXGenerator;
+import ru.ezdz.docmgmt.text.TextGenerator;
+import ru.ezdz.docmgmt.text.TextImporter;
 
 public class DocProcessorBuilder {
 	public static DocGenerator createGenerator(DocFormat format) {
