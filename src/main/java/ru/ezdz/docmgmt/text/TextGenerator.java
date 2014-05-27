@@ -37,7 +37,7 @@ public class TextGenerator implements DocGenerator {
 			DocParagraph currentArticle = articleIterator.next();
 			writer.write(prefix);
 			writer.write(currentArticle.getIndex());
-			writer.write(". ");
+			writer.write(" ");
 			writer.write(currentArticle.getTitle());
 			writer.write('\n');
 			Iterator<DocContent> contentIterator = article.getContentIterator();

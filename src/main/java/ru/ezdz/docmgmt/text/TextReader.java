@@ -10,10 +10,19 @@ class TextReader {
 	int head = 0;
 	int tail = 0;
 	StringBuilder sb = new StringBuilder();
-	
-	public TextReader(Reader reader) {
+    private boolean eos = false;
+
+    public TextReader(Reader reader) {
 		this.reader = reader;
 	}
+
+    public boolean ready() throws IOException {
+        return reader.ready();
+    }
+
+    public boolean isEos() {
+        return eos;
+    }
 
 	public String read() throws IOException {
 		if (!reader.ready()) {
@@ -25,6 +34,7 @@ class TextReader {
 				tail = reader.read(cbuf);
 				head = 0;
 				if (tail <= 0) {
+                    eos = true;
 					return sb.toString();
 				}
 			}

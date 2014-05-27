@@ -53,7 +53,7 @@ public class TextGeneratorTest {
 		File file = new File("tmpGenFile.txt");
 		gen.generate(doc, file);
 		assertTrue(file.canRead());
-		assertEquals(604, file.length());
+		assertEquals(590, file.length());
 	}
 
 }

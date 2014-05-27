@@ -1,6 +1,7 @@
 package ru.ezdz.docmgmt.text;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -18,8 +19,15 @@ public class TextIndexTest {
 	public void tearDown() throws Exception {
 	}
 
-	@Test
-	public void testSameLevel1() throws IOException {
+    @Test
+    public void testEmptyString() throws IOException {
+        TextIndex ti = new TextIndex();
+        ti.indexList.add(2);
+        assertEquals(TextIndex.MatchMode.NONE, ti.match(""));
+    }
+
+    @Test
+        public void testSameLevel1() throws IOException {
 		TextIndex ti = new TextIndex();
 		ti.indexList.add(2);
 		assertEquals(TextIndex.MatchMode.NONE, ti.match("3.1" + suffix()));
@@ -76,6 +84,8 @@ public class TextIndexTest {
         ti.indexList.add(5);
         assertEquals(TextIndex.MatchMode.NONE, ti.match("2.5.2" + suffix()));
         assertEquals(TextIndex.MatchMode.NEXT_LEVEL, ti.match("2.5.1" + suffix()));
+        assertEquals(TextIndex.MatchMode.SAME_LEVEL, ti.match("2.5.2" + suffix()));
+        assertEquals(TextIndex.MatchMode.NEXT_LEVEL, ti.match("2.5.2.1" + suffix()));
     }
 
     @Test
@@ -90,5 +100,10 @@ public class TextIndexTest {
         assertEquals(TextIndex.MatchMode.NEXT_LEVEL, ti.match("2.1" + suffix()));
         assertEquals(TextIndex.MatchMode.SAME_LEVEL, ti.match("2.2" + suffix()));
         assertEquals(TextIndex.MatchMode.NEXT_LEVEL, ti.match("2.2.1" + suffix()));
+    }
+
+    @Test
+    public void testMatchSubs() {
+        assertTrue(TextIndex.matchSubstr("2.5.2", "2", 4));
     }
 }
