@@ -44,7 +44,7 @@ public class TextGeneratorTest {
 		String output = out.toString();
 		String[] lineArray = output.split("\n");
 		System.out.println(output);
-		assertEquals(26, lineArray.length);
+		assertEquals(29, lineArray.length);
 	}
 
 	@Test
@@ -53,7 +53,7 @@ public class TextGeneratorTest {
 		File file = new File("tmpGenFile.txt");
 		gen.generate(doc, file);
 		assertTrue(file.canRead());
-		assertEquals(590, file.length());
+		assertEquals(657, file.length());
 	}
 
 }

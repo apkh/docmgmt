@@ -42,7 +42,7 @@ public class TextImporter implements DocImporter {
                 break;
             }
             logger.debug(line);
-            System.out.println(">>" +line);
+//            System.out.println(">>" +line);
 			TextIndex.MatchMode mode = tIndex.match(line);
             skippedLevels = tIndex.getSkippedLevels();
             String trimmedLine = line.trim();
@@ -102,16 +102,18 @@ public class TextImporter implements DocImporter {
                         contentList.add(content);
                     }
                     Object newPar = docBuilder.createParagraph(docContext.peek(), index, title, contentList);
+//                    System.out.println(String.format("p: %s %s %s %s", docContext.peek(), index, title, contentList.toString()));
+
                     switch (mode) {
                         case NEXT_LEVEL:
                             docContext.push(newPar);
-                            System.out.println("down:" + newPar);
+//                            System.out.println("down:" + newPar);
                             break;
                         case UPPER_LEVEL:
                             for (int i = 0; i < skippedLevels; i++) {
                                 docContext.pop();
                             }
-                            System.out.println("up:" + newPar);
+//                            System.out.println("up:" + newPar + " by " + skippedLevels);
                             break;
                     }
                     index = tIndex.getLastIndex();

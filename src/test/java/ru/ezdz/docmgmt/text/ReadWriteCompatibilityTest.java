@@ -59,10 +59,11 @@ public class ReadWriteCompatibilityTest {
             @Override
             public Object createParagraph(Object paragraph, String number, String title, List<String> content) {
                 counter++;
+//                System.out.println("---------------");
                 return "p" + counter +"Tag";
             }
         };
         textImporter.importFrom(fr, mockBuilder);
-        assertEquals(10, counter);
+        assertEquals(12, counter);
     }
 }

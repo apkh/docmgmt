@@ -22,6 +22,7 @@ public class TextGenerator implements DocGenerator {
 
 	public void generate(DocRoot docRoot, OutputStream out) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+        writeSingleArticle(writer, new char[0], docRoot);
 		generate(writer, docRoot, 0);
 		writer.flush();
 	}
@@ -38,22 +39,26 @@ public class TextGenerator implements DocGenerator {
 			writer.write(prefix);
 			writer.write(currentArticle.getIndex());
 			writer.write(" ");
-			writer.write(currentArticle.getTitle());
-			writer.write('\n');
-			Iterator<DocContent> contentIterator = article.getContentIterator();
-			while (contentIterator.hasNext()) {
-				DocContent currentContent = contentIterator.next();
-				writer.write(prefix);
-				writer.write("  ");
-				writer.write(currentContent.getData());
-				writer.write('\n');
-			}
+            writeSingleArticle(writer, prefix, currentArticle);
 			generate(writer, currentArticle, level + 1);
 			writer.flush();
 		}
 	}
 
-	public void generate(DocRoot docRoot, File file) throws IOException {
+    private void writeSingleArticle(Writer writer, char[] prefix, DocParagraph currentArticle) throws IOException {
+        writer.write(currentArticle.getTitle());
+        writer.write('\n');
+        Iterator<DocContent> contentIterator = currentArticle.getContentIterator();
+        while (contentIterator.hasNext()) {
+            DocContent currentContent = contentIterator.next();
+            writer.write(prefix);
+            writer.write("  ");
+            writer.write(currentContent.getData());
+            writer.write('\n');
+        }
+    }
+
+    public void generate(DocRoot docRoot, File file) throws IOException {
 		FileOutputStream fileOutputStream = new FileOutputStream(file);
 		generate(docRoot, fileOutputStream);
 		fileOutputStream.close();
