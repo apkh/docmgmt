@@ -33,7 +33,7 @@ public class TextGenerator implements DocGenerator {
 			prefix[i] = ' ';
 		}
 		
-		Iterator<DocParagraph> articleIterator = article.getArticleIterator();
+		Iterator<? extends DocParagraph> articleIterator = article.getArticleIterator();
 		while (articleIterator.hasNext()) {
 			DocParagraph currentArticle = articleIterator.next();
 			writer.write(prefix);
@@ -48,7 +48,7 @@ public class TextGenerator implements DocGenerator {
     private void writeSingleArticle(Writer writer, char[] prefix, DocParagraph currentArticle) throws IOException {
         writer.write(currentArticle.getTitle());
         writer.write('\n');
-        Iterator<DocContent> contentIterator = currentArticle.getContentIterator();
+        Iterator<? extends DocContent> contentIterator = currentArticle.getContentIterator();
         while (contentIterator.hasNext()) {
             DocContent currentContent = contentIterator.next();
             writer.write(prefix);

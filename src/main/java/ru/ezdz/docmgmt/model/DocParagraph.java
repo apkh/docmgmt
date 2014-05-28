@@ -5,6 +5,6 @@ import java.util.Iterator;
 public interface DocParagraph {
 	String getIndex();
 	String getTitle();
-	Iterator<DocContent> getContentIterator();
-	Iterator<DocParagraph> getArticleIterator();
+	Iterator<? extends DocContent> getContentIterator();
+	Iterator<? extends DocParagraph> getArticleIterator();
 }
