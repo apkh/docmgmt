@@ -20,7 +20,7 @@ public class DocXGenerator implements DocGenerator {
 	}
 	
 	public void generate(OutputStream out, DocParagraph article, int level) {
-		Iterator<DocParagraph> articleIterator = article.getArticleIterator();
+		Iterator<? extends DocParagraph> articleIterator = article.getArticleIterator();
 		while (articleIterator.hasNext()) {
 			
 		}
