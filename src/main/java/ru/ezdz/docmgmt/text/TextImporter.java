@@ -21,8 +21,12 @@ public class TextImporter implements DocImporter {
 
 	final static int BUF_SIZE = 512;
     private static Logger logger = LoggerFactory.getLogger(TextImporter.class);
+    String content = "";
+    List<String> contentList = new ArrayList<String>(10);
+    private String index;
+    private String title;
 
-	public void importFrom(InputStream in, DocumentBuilder docBuilder) throws IOException {
+    public void importFrom(InputStream in, DocumentBuilder docBuilder) throws IOException {
 		importFrom(new InputStreamReader(in), docBuilder);
 	}
 
@@ -30,11 +34,9 @@ public class TextImporter implements DocImporter {
 		TextReader tReader = new TextReader(reader);
 		TextIndex tIndex = new TextIndex();
         ParseState state = ParseState.BEGIN;
-        String title = "";
-        String content = "";
-        String index = "0";
+        title = "";
+        index = "0";
         int skippedLevels = 0;
-        List<String> contentList = new ArrayList<String>(10);
         Stack docContext = new Stack();
 		while (!tReader.isEos()) {
             String line = tReader.read();
@@ -63,39 +65,16 @@ public class TextImporter implements DocImporter {
                             content = "";
                         }
                         docContext.push(docBuilder.createDocument(title, contentList));
-                        title = tIndex.getContentLine();
-                        content = "";
-                        contentList.clear();
-                        index = tIndex.getLastIndex();
+                        processParagraph(tIndex);
                         state = ParseState.PARAGRAPH;
                     } else {
-                        if (trimmedLine.length() == 0) {
-                            if (content != "") {
-                                contentList.add(content);
-                                content = "";
-                            }
-                        } else {
-                            if (content != "") {
-                                content += "/n";
-                            }
-                            content += trimmedLine;
-                        }
+                        processContent(trimmedLine);
                     }
                     break;
 
                 case PARAGRAPH:
                     if (mode == TextIndex.MatchMode.NONE) {
-                        if (trimmedLine.length() == 0) {
-                            if (content != "") {
-                                contentList.add(content);
-                                content = "";
-                            }
-                        } else {
-                            if (content != "") {
-                                content += "/n";
-                            }
-                            content += trimmedLine;
-                        }
+                        processContent(trimmedLine);
                         break;
                     }
                     if (content != "") {
@@ -116,10 +95,7 @@ public class TextImporter implements DocImporter {
 //                            System.out.println("up:" + newPar + " by " + skippedLevels);
                             break;
                     }
-                    index = tIndex.getLastIndex();
-                    title = tIndex.getContentLine();
-                    content = "";
-                    contentList.clear();
+                    processParagraph(tIndex);
                     break;
 
                 case CONTENT:
@@ -132,10 +108,35 @@ public class TextImporter implements DocImporter {
 		
 	}
 
-	public void importFrom(File file, DocumentBuilder docBuilder) throws IOException {
+    private void processParagraph(TextIndex tIndex) {
+        index = tIndex.getLastIndex();
+        title = tIndex.getContentLine();
+        content = "";
+        contentList.clear();
+    }
+
+    private void processContent(String trimmedLine) {
+        if (trimmedLine.length() == 0) {
+            if (content != "") {
+                contentList.add(content);
+                content = "";
+            }
+        } else {
+            if (content != "") {
+                content += "/n";
+            }
+            content += trimmedLine;
+        }
+    }
+
+    public void importFrom(File file, DocumentBuilder docBuilder) throws IOException {
 		FileInputStream in = new FileInputStream(file);
-		importFrom(in, docBuilder);
-	}
+		try {
+            importFrom(in, docBuilder);
+        } finally {
+            in.close();
+        }
+    }
 
     private enum ParseState {
         BEGIN,

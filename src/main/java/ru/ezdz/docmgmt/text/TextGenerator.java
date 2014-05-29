@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import ru.ezdz.docmgmt.DocGenerator;
@@ -22,16 +23,18 @@ public class TextGenerator implements DocGenerator {
 
 	public void generate(DocRoot docRoot, OutputStream out) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
-        writeSingleArticle(writer, new char[0], docRoot);
-		generate(writer, docRoot, 0);
-		writer.flush();
+        try {
+            writeSingleArticle(writer, new char[0], docRoot);
+            generate(writer, docRoot, 0);
+            writer.flush();
+        } finally {
+            writer.close();
+        }
 	}
 	
 	void generate(Writer writer, DocParagraph article, int level) throws IOException {
 		char[] prefix = new char[level * 2];
-		for (int i = level * 2 - 1; i > 0; i--) {
-			prefix[i] = ' ';
-		}
+		Arrays.fill(prefix, ' ');
 		
 		Iterator<? extends DocParagraph> articleIterator = article.getArticleIterator();
 		while (articleIterator.hasNext()) {
@@ -60,9 +63,11 @@ public class TextGenerator implements DocGenerator {
 
     public void generate(DocRoot docRoot, File file) throws IOException {
 		FileOutputStream fileOutputStream = new FileOutputStream(file);
-		generate(docRoot, fileOutputStream);
-		fileOutputStream.close();
-		
+		try {
+            generate(docRoot, fileOutputStream);
+        } finally {
+            fileOutputStream.close();
+        }
 	}
 
 }
