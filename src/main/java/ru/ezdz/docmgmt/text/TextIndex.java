@@ -28,7 +28,7 @@ public class TextIndex {
 
 	public MatchMode match(String line) {
 		int pos = 0;
-		while (pos < line.length() && (Character.isWhitespace(line.charAt(pos)) || line.charAt(pos) == '\u0000')) {
+		while (pos < line.length() && (Character.isWhitespace(line.charAt(pos)) )) {
 			pos++;
 		}
 		for (int i = 0; i < indexList.size(); i ++) {

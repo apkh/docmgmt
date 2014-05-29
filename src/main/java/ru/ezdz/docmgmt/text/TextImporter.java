@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import com.sun.xml.internal.ws.resources.ServerMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +18,8 @@ import ru.ezdz.docmgmt.DocumentBuilder;
 
 public class TextImporter implements DocImporter {
 
-	final static int BUF_SIZE = 512;
+    final static int BUF_SIZE = 512;
+    public static final String INITIAL_INDEX = "0";
     private static Logger logger = LoggerFactory.getLogger(TextImporter.class);
     String content = "";
     List<String> contentList = new ArrayList<String>(10);
@@ -35,7 +35,7 @@ public class TextImporter implements DocImporter {
 		TextIndex tIndex = new TextIndex();
         ParseState state = ParseState.BEGIN;
         title = "";
-        index = "0";
+        index = INITIAL_INDEX;
         int skippedLevels = 0;
         Stack docContext = new Stack();
 		while (!tReader.isEos()) {
@@ -102,7 +102,7 @@ public class TextImporter implements DocImporter {
                     break;
             }
 		}
-        if (index != "") {
+        if (index != "0") {
             docBuilder.createParagraph(docContext.peek(), index, title, contentList);
         }
 		

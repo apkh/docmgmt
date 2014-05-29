@@ -6,6 +6,7 @@ import org.junit.Test;
 import ru.ezdz.docmgmt.DocumentBuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -56,6 +57,15 @@ public class TextImporterTest extends TestCase {
         textImporter.importFrom(sr, mockReader);
 
         EasyMock.verify(mockReader);
+    }
+
+    @Test
+    public void testCyrLetters() throws IOException {
+        TextImporter textImporter = new TextImporter();
+        InputStream resourceAsStream = getClass().getResourceAsStream("/cyr_file.txt");
+        DocumentBuilder documentBuilder = EasyMock.createMock(DocumentBuilder.class);
+        textImporter.importFrom(resourceAsStream, documentBuilder);
+
     }
 
     private <T> List<T> list(T... values) {
