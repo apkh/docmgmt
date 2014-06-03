@@ -64,6 +64,6 @@ public class ReadWriteCompatibilityTest {
             }
         };
         textImporter.importFrom(fr, mockBuilder);
-        assertEquals(12, counter);
+        assertEquals(14, counter);
     }
 }

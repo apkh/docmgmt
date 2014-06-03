@@ -25,7 +25,7 @@ class TextReader {
     }
 
 	public String read() throws IOException {
-		if (!reader.ready()) {
+		if (!reader.ready() && head > tail) {
 			return null;
 		}
 		sb = new StringBuilder(); // or clear is possible
