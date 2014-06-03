@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -17,14 +18,17 @@ import ru.ezdz.docmgmt.model.DocRoot;
 
 public class TextGenerator implements DocGenerator {
 
+    ArrayList<Integer> hierIndex = new ArrayList<Integer>(10);
 
 	public TextGenerator() {
 	}
 
 	public void generate(DocRoot docRoot, OutputStream out) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+        hierIndex.clear();
         try {
             writeSingleArticle(writer, new char[0], docRoot);
+            hierIndex.add(1);
             generate(writer, docRoot, 0);
             writer.flush();
         } finally {
@@ -40,13 +44,27 @@ public class TextGenerator implements DocGenerator {
 		while (articleIterator.hasNext()) {
 			DocParagraph currentArticle = articleIterator.next();
 			writer.write(prefix);
-			writer.write(currentArticle.getIndex());
+			writer.write(calculateIndex());
 			writer.write(" ");
             writeSingleArticle(writer, prefix, currentArticle);
+            hierIndex.add(level + 1, 1);
 			generate(writer, currentArticle, level + 1);
+            hierIndex.remove(level + 1);
+            hierIndex.set(level, hierIndex.get(level) + 1);
 			writer.flush();
 		}
 	}
+
+    private String calculateIndex() {
+        StringBuilder sb = new StringBuilder(3 * hierIndex.size());
+        for (int index = 0; index < hierIndex.size(); index++) {
+            if (index != 0) {
+                sb.append('.');
+            }
+            sb.append(hierIndex.get(index));
+        }
+        return sb.toString();
+    }
 
     private void writeSingleArticle(Writer writer, char[] prefix, DocParagraph currentArticle) throws IOException {
         writer.write(currentArticle.getTitle());

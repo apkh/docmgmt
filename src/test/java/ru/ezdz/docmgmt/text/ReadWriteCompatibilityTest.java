@@ -59,7 +59,7 @@ public class ReadWriteCompatibilityTest {
             @Override
             public Object createParagraph(Object paragraph, String number, String title, List<String> content) {
                 counter++;
-//                System.out.println("---------------");
+//                System.out.println(number + ":" + title);
                 return "p" + counter +"Tag";
             }
         };
