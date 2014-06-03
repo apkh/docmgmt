@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 
 import org.slf4j.Logger;
@@ -19,11 +20,10 @@ import ru.ezdz.docmgmt.DocumentBuilder;
 public class TextImporter implements DocImporter {
 
     final static int BUF_SIZE = 512;
-    public static final String INITIAL_INDEX = "0";
     private static Logger logger = LoggerFactory.getLogger(TextImporter.class);
-    String content = "";
+    Optional<String> content = Optional.empty();
     List<String> contentList = new ArrayList<String>(10);
-    private String index;
+    private Optional<String> index;
     private String title;
 
     public void importFrom(InputStream in, DocumentBuilder docBuilder) throws IOException {
@@ -35,9 +35,9 @@ public class TextImporter implements DocImporter {
 		TextIndex tIndex = new TextIndex();
         ParseState state = ParseState.BEGIN;
         title = "";
-        index = INITIAL_INDEX;
-        int skippedLevels = 0;
-        Stack docContext = new Stack();
+        index = Optional.empty();
+        int skippedLevels;
+        Stack<Object> docContext = new Stack<Object>();
 		while (!tReader.isEos()) {
             String line = tReader.read();
             if (line == null) {
@@ -52,7 +52,7 @@ public class TextImporter implements DocImporter {
                 case BEGIN:
                     if (trimmedLine.length() != 0) {
                         title = trimmedLine;
-                        content = "";
+                        content = Optional.empty();
                         contentList.clear();
                         state = ParseState.HEADER;
                     }
@@ -60,9 +60,9 @@ public class TextImporter implements DocImporter {
                 case HEADER:
                     if (mode == TextIndex.MatchMode.NEXT_LEVEL) {
                         // first paragraph detected
-                        if (content != "") {
-                            contentList.add(content);
-                            content = "";
+                        if (content.isPresent()) {
+                            contentList.add(content.get());
+                            content = Optional.empty();
                         }
                         docContext.push(docBuilder.createDocument(title, contentList));
                         processParagraph(tIndex);
@@ -77,10 +77,11 @@ public class TextImporter implements DocImporter {
                         processContent(trimmedLine);
                         break;
                     }
-                    if (content != "") {
-                        contentList.add(content);
+                    if (content.isPresent()) {
+                        contentList.add(content.get());
+                        /// TODO cleanup content???
                     }
-                    Object newPar = docBuilder.createParagraph(docContext.peek(), index, title, contentList);
+                    Object newPar = docBuilder.createParagraph(docContext.peek(), index.get(), title, contentList);
 //                    System.out.println(String.format("p: %s %s %s %s", docContext.peek(), index, title, contentList.toString()));
 
                     switch (mode) {
@@ -102,30 +103,28 @@ public class TextImporter implements DocImporter {
                     break;
             }
 		}
-        if (index != "0") {
-            docBuilder.createParagraph(docContext.peek(), index, title, contentList);
+        if (index.isPresent()) {
+            docBuilder.createParagraph(docContext.peek(), index.get(), title, contentList);
         }
 		
 	}
 
     private void processParagraph(TextIndex tIndex) {
-        index = tIndex.getLastIndex();
+        index = Optional.of(tIndex.getLastIndex());
         title = tIndex.getContentLine();
-        content = "";
+        content = Optional.empty();
         contentList.clear();
     }
 
     private void processContent(String trimmedLine) {
         if (trimmedLine.length() == 0) {
-            if (content != "") {
-                contentList.add(content);
-                content = "";
+            if (content.isPresent()) {
+                contentList.add(content.get());
+                content = Optional.empty();
             }
         } else {
-            if (content != "") {
-                content += "/n";
-            }
-            content += trimmedLine;
+            content = Optional.of((content.isPresent()
+                    ? content.get() + '\n' : "") + trimmedLine);
         }
     }
 
