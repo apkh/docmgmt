@@ -19,3 +19,6 @@ Others levels are either:
 
 Everything between paragraphs are paragraph's body
 
+Known bugs:
+#1 Empty content exported as blank line instead of no line
+#2 Multiline content exported with wrong indentation for lines after first line
